@@ -1,0 +1,21 @@
+.program squarewave
+
+; Cada vuelta dura 4 ciclos de la maquina de estados:
+;   set 1 (1 ciclo) + [1] (1 ciclo de retardo) = 2 ciclos en ALTO
+;   set 0 (1 ciclo) + [1] (1 ciclo de retardo) = 2 ciclos en BAJO
+; => periodo = 4 ciclos  =>  f_salida = f_SM / 4
+
+.wrap_target
+    set pins, 1 [1]
+    set pins, 0 [1]
+.wrap
+
+% c-sdk {
+static inline void squarewave_program_init(PIO pio, uint sm, uint offset, uint pin) {
+    pio_gpio_init(pio, pin);                                  // el PIO controla el pin
+    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);    // pin como salida
+    pio_sm_config c = squarewave_program_get_default_config(offset);
+    sm_config_set_set_pins(&c, pin, 1);                       // 'set pins' actua sobre nuestro pin
+    pio_sm_init(pio, sm, offset, &c);
+}
+%}
