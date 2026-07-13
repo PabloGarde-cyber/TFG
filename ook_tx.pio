@@ -1,0 +1,27 @@
+.program ook_tx
+
+; Un bit por vuelta:
+;   out pins,1  -> 1 ciclo (saca el bit al pin)
+;   [1]         -> 1 ciclo de retardo
+;   => 2 ciclos por bit  =>  T_bit = 2 / f_SM
+
+.wrap_target
+    out pins, 1 [1]
+.wrap
+
+% c-sdk {
+static inline void ook_tx_program_init(PIO pio, uint sm, uint offset, uint pin, float div) {
+    pio_gpio_init(pio, pin);
+    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+
+    pio_sm_config c = ook_tx_program_get_default_config(offset);
+    sm_config_set_out_pins(&c, pin, 1);
+
+    // false = MSB primero | true = autopull | 8 = umbral (recarga cada 8 bits)
+    sm_config_set_out_shift(&c, false, true, 8);
+
+    sm_config_set_clkdiv(&c, div);
+    pio_sm_init(pio, sm, offset, &c);
+    pio_sm_set_enabled(pio, sm, true);
+}
+%}

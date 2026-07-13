@@ -1,2 +1,14 @@
-build
-!.vscode/*
+# Compilacion (se regenera en cada maquina: NUNCA se comparte)
+build/
+
+# Ficheros del IDE y del sistema
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Salidas de compilacion sueltas
+*.uf2
+*.elf
+*.bin
+*.hex
+*.dis

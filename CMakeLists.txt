@@ -39,8 +39,8 @@ add_executable(blink
     blink.c
     )
 
-# Genera squarewave.pio.h a partir del programa PIO
-pico_generate_pio_header(blink ${CMAKE_CURRENT_LIST_DIR}/squarewave.pio)
+# Genera ook_tx.pio.h a partir del programa PIO
+pico_generate_pio_header(blink ${CMAKE_CURRENT_LIST_DIR}/ook_tx.pio)
 
 # pull in common dependencies
 target_link_libraries(blink pico_stdlib hardware_pio)

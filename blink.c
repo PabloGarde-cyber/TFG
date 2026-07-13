@@ -1,26 +1,23 @@
 #include "pico/stdlib.h"
 #include "hardware/pio.h"
-#include "hardware/clocks.h"
-#include "squarewave.pio.h"   // lo genera CMake a partir del .pio
+#include "ook_tx.pio.h"
 
-#define OUT_PIN 15            // GPIO15 = pin fisico 20
+#define OUT_PIN   15        // GPIO15 -> pin fisico 20 (el mismo de siempre)
+
+// T_bit = 2 ciclos / (125 MHz / div)
+// div = 2500 -> f_SM = 50 kHz -> T_bit = 40 us -> 25 kbps
+#define CLK_DIV   2500.0f
 
 int main() {
-    stdio_init_all();
-
     PIO pio = pio0;
     uint sm = pio_claim_unused_sm(pio, true);
-    uint offset = pio_add_program(pio, &squarewave_program);
+    uint offset = pio_add_program(pio, &ook_tx_program);
 
-    squarewave_program_init(pio, sm, offset, OUT_PIN);
-
-    // ---- EL MANDO: el divisor de reloj ----
-    float div = 1250.0f;                 // <-- cambia esto y observa
-    pio_sm_set_clkdiv(pio, sm, div);
-
-    pio_sm_set_enabled(pio, sm, true);   // arranca la maquina de estados
+    ook_tx_program_init(pio, sm, offset, OUT_PIN, CLK_DIV);
 
     while (true) {
-        tight_loop_contents();           // el PIO trabaja solo; la CPU no hace nada
+        // OJO: MSB primero => hay que alinear el byte a la izquierda (<< 24)
+        pio_sm_put_blocking(pio, sm, ((uint32_t)0xA5) << 24);  // el byte: 1010 0101
+        pio_sm_put_blocking(pio, sm, 0u);                      // hueco: 8 bits a 0
     }
 }
