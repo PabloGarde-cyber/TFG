@@ -35,21 +35,20 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(blink
-    blink.c
-    )
+# Paso 2
+add_executable(paso2_squarewave paso2_squarewave.c)
+pico_generate_pio_header(paso2_squarewave ${CMAKE_CURRENT_LIST_DIR}/squarewave.pio)
+target_link_libraries(paso2_squarewave pico_stdlib hardware_pio)
+pico_add_extra_outputs(paso2_squarewave)
 
-# Genera ook_tx.pio.h a partir del programa PIO
-pico_generate_pio_header(blink ${CMAKE_CURRENT_LIST_DIR}/ook_tx.pio)
+# Paso 3
+add_executable(paso3_jitter paso3_jitter.c)
+pico_generate_pio_header(paso3_jitter ${CMAKE_CURRENT_LIST_DIR}/squarewave.pio)
+target_link_libraries(paso3_jitter pico_stdlib hardware_pio)
+pico_add_extra_outputs(paso3_jitter)
 
-# pull in common dependencies
-target_link_libraries(blink pico_stdlib hardware_pio)
-
-if (PICO_CYW43_SUPPORTED)
-    target_link_libraries(blink pico_cyw43_arch_none)
-endif()
-
-# create map/bin/hex file etc.
-pico_add_extra_outputs(blink)
-
-# add url via pico_set_program_url
+# Paso 4
+add_executable(paso4_serializador paso4_serializador.c)
+pico_generate_pio_header(paso4_serializador ${CMAKE_CURRENT_LIST_DIR}/ook_tx.pio)
+target_link_libraries(paso4_serializador pico_stdlib hardware_pio)
+pico_add_extra_outputs(paso4_serializador)
