@@ -17,7 +17,7 @@ int main() {
     uint sm = pio_claim_unused_sm(pio, true);
     uint offset = pio_add_program(pio, &squarewave_program);
     squarewave_program_init(pio, sm, offset, PIN_PIO);
-    pio_sm_set_clkdiv(pio, sm, 1250.0f);
+    pio_sm_set_clkdiv(pio, sm, 2500.0f);
     pio_sm_set_enabled(pio, sm, true);
 
     gpio_init(PIN_SW);
