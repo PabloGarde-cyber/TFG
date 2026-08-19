@@ -1,0 +1,7 @@
+.program frame_tx
+; OOK TX conforme: 1 bit de aire por instruccion, MSB-first.
+; Autopull umbral 32 -> el OSR se recarga solo desde la FIFO (que alimenta el DMA).
+; Cuando la FIFO se vacia, el SM se para en 'out' esperando dato (linea en reposo).
+.wrap_target
+    out pins, 1
+.wrap

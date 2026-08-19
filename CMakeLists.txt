@@ -52,3 +52,19 @@ add_executable(paso4_serializador paso4_serializador.c)
 pico_generate_pio_header(paso4_serializador ${CMAKE_CURRENT_LIST_DIR}/ook_tx.pio)
 target_link_libraries(paso4_serializador pico_stdlib hardware_pio)
 pico_add_extra_outputs(paso4_serializador)
+
+
+add_executable(fase2_3_ook_dma fase2/fase2_3_ook_dma.c)
+pico_generate_pio_header(fase2_3_ook_dma ${CMAKE_CURRENT_LIST_DIR}/fase2/frame_tx.pio)
+target_link_libraries(fase2_3_ook_dma pico_stdlib hardware_pio hardware_dma)
+pico_add_extra_outputs(fase2_3_ook_dma)
+
+add_executable(manchester_test fase2/manchester_test.c)
+pico_generate_pio_header(manchester_test ${CMAKE_CURRENT_LIST_DIR}/fase2/frame_tx.pio)
+target_link_libraries(manchester_test pico_stdlib hardware_pio hardware_dma)
+pico_add_extra_outputs(manchester_test)
+
+add_executable(frame_manch_dma fase2/frame_manch_dma.c)
+pico_generate_pio_header(frame_manch_dma ${CMAKE_CURRENT_LIST_DIR}/fase2/frame_tx.pio)
+target_link_libraries(frame_manch_dma pico_stdlib hardware_pio hardware_dma)
+pico_add_extra_outputs(frame_manch_dma)
