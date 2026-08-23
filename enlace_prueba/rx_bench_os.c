@@ -9,7 +9,7 @@
  *
  *  Extiende el banco chip-a-chip anadiendo la capa que emplea
  *  el receptor sobre hardware: el pin se muestrea OSR veces por
- *  chip (aqui OSR=4). A partir de ese flujo de muestras, el
+ *  chip (aqui OSR=5). A partir de ese flujo de muestras, el
  *  receptor debe RECUPERAR la fase de chip (donde empieza cada
  *  chip) y reconstruir la secuencia, sin conocer de antemano el
  *  desfase de muestreo. Cadena:
@@ -25,7 +25,7 @@
  *  el transmisor.
  * ============================================================ */
 
-#define OSR 4    /* muestras por chip */
+#define OSR 5    /* muestras por chip */
 
 /* ---------- CRC-16/MCRF4XX ---------- */
 static uint8_t refl8(uint8_t b){uint8_t r=0;for(int i=0;i<8;i++)if(b&(1u<<i))r|=1u<<(7-i);return r;}

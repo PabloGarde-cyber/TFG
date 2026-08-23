@@ -16,7 +16,7 @@
  *  Cadena:
  *   build_frame -> manchester_encode -> [chips de trama]
  *   [ruido previo (chips aleatorios)] + [chips de trama]
- *        -> canal sobremuestreo (OSR=4, desfase) ->
+ *        -> canal sobremuestreo (OSR=5, desfase) ->
  *        -> recuperacion de fase de chip ->
  *        -> SINCRONIZACION: buscar patron de preambulo en chips ->
  *        -> decodificar Manchester (ya alineado) ->
@@ -33,7 +33,7 @@
  *  sigue en el dominio de bytes.
  * ============================================================ */
 
-#define OSR 4
+#define OSR 5
 
 /* ---------- CRC-16/MCRF4XX ---------- */
 static uint8_t refl8(uint8_t b){uint8_t r=0;for(int i=0;i<8;i++)if(b&(1u<<i))r|=1u<<(7-i);return r;}
