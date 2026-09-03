@@ -68,3 +68,12 @@ add_executable(frame_manch_dma fase2/frame_manch_dma.c)
 pico_generate_pio_header(frame_manch_dma ${CMAKE_CURRENT_LIST_DIR}/fase2/frame_tx.pio)
 target_link_libraries(frame_manch_dma pico_stdlib hardware_pio hardware_dma)
 pico_add_extra_outputs(frame_manch_dma)
+
+
+# Receptor (enlace cableado)
+add_executable(rx_firmware receptor/rx_firmware.c)
+pico_generate_pio_header(rx_firmware ${CMAKE_CURRENT_LIST_DIR}/receptor/rx_capture.pio)
+target_link_libraries(rx_firmware pico_stdlib hardware_pio hardware_dma hardware_clocks)
+pico_enable_stdio_usb(rx_firmware 1)
+pico_enable_stdio_uart(rx_firmware 0)
+pico_add_extra_outputs(rx_firmware)

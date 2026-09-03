@@ -178,7 +178,7 @@ int main(void){
 
     // --- construir, CODIFICAR MANCHESTER y empaquetar (una vez) ---
     static uint32_t words[32];                 // 32 palabras: la trama Manchester dobla
-    uint8_t payload[] = {0xAA,0xAA,0xAA,0xAA};  // patron facil de leer (10101010)
+    uint8_t payload[] = {'H', 'o', 'l', 'a'};  // payload
     static bits_t raw, manch;                  // static: no saturar la pila
     build_frame(&raw, payload, sizeof(payload), 0x01);
     manchester_encode(&raw, &manch);           // <-- paso nuevo respecto al 2.3

@@ -1,0 +1,18 @@
+; ============================================================
+;  rx_capture.pio  -  Captura de la senal por muestreo (RX)
+;  TFG VLC sobre RP2040 - Pablo - UC3M
+;
+;  Simetrico al transmisor: alli el PIO sacaba un bit por
+;  instruccion (out pins,1); aqui el PIO lee un bit del pin de
+;  entrada por instruccion (in pins,1). Con autopush umbral 32,
+;  cada 32 muestras el ISR se vuelca solo a la FIFO de RX, que
+;  el DMA traslada a memoria.
+;
+;  Ritmo de muestreo: divisor 125 -> 125 MHz/125 = 1 MHz.
+;  A 200 kHz de chip (5 us), son 5 muestras por chip (OSR=5).
+;  Divisor ENTERO: sin jitter fraccionario, coherente con Fase 1.
+; ============================================================
+.program rx_capture
+.wrap_target
+    in pins, 1          ; muestrea 1 bit del pin de entrada al ISR
+.wrap
